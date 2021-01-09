@@ -1,0 +1,105 @@
+@font-face{
+    font-family: joystick;
+    src: url("assets/font/joystix\ monospace.ttf");
+}
+
+body {
+    background-color: #fafafa;
+}
+
+.dino {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+    margin-left: 60px;
+    background-image: url("assets/dino/dino1.png");
+    animation: feetDino 0.25s infinite cubic-bezier(1, 0, 0, 1);
+}
+
+.dinoLowered {
+    width: 75px;
+    height: 45px;
+    position: absolute;
+    bottom: 0;
+    margin-left: 60px;
+    background-image: url("assets/dino/dino5.png");
+    animation: feetDinoLowered 0.25s infinite cubic-bezier(1, 0, 0, 1);
+}
+
+.cactus {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    bottom: 0;
+    background-image: url("assets/cactus/cactus1.png");
+    background-repeat: no-repeat;
+}
+
+/* .bird {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-image: url("assets/bird/bird1.png");
+    animation: flappingWingsBird 0.25s infinite cubic-bezier(1, 0, 0, 1);
+    background-repeat: no-repeat;
+} */
+
+.game-over {
+    text-align: center;
+    color: #666666;
+    margin-top: 50px;
+    font-family: joystick;
+}
+
+@keyframes slideRight {
+    from {
+        background-position: 70000%;
+    } to {
+        background-position: 0%;
+    }
+}
+
+/* Animação dos pés do dinossauro. */
+@keyframes feetDino {
+    from {
+        background-image: url("assets/dino/dino3.png");
+    }
+    to {
+        background-image: url("assets/dino/dino4.png");
+    }
+}
+
+/* Animação dos pés do dinossauro abaixado */
+@keyframes feetDinoLowered {
+    from {
+        background-image: url("assets/dino/dino5.png");
+    } to {
+        background-image: url("assets/dino/dino6.png");
+    }
+}
+
+@keyframes flappingWingsBird {
+    from {
+        background-image: url("assets/bird/bird1.png");
+    } to {
+        background-image: url("assets/bird/bird2.png");
+    }
+}
+
+.background {
+    position: absolute;
+    text-align: start;
+    bottom: 0;
+    background-image: url("assets/background.png");
+    background-repeat: repeat-x;
+    animation: slideRight 600s infinite linear;
+    width: 100%;
+    height: 200px;
+    font-family: joystick;
+    color: #666666;
+}
+
+.highScore {
+    margin-top: -150px;
+}
