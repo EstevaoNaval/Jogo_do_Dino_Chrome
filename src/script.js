@@ -24,27 +24,26 @@ class Dino {
 
     jump(){
         this.#isJumping = true;
-        let dinoPosition = this.#dinoPosition;
         let dinoHTML = this.#dinoHTML;
 
         let upInterval = setInterval(() => {
-            if(dinoPosition >= 150){
+            if(this.#dinoPosition >= 150){
                 clearInterval(upInterval);
 
                 let downInterval = setInterval(() => {
-                    if(dinoPosition === 0){
+                    if(this.#dinoPosition === 0){
                         clearInterval(downInterval)
                         this.#isJumping = false;
                     }else{
-                        dinoPosition -= 20;
+                        this.#dinoPosition -= 20;
 
-                        dinoHTML.style.bottom = `${dinoPosition}px`;
+                        dinoHTML.style.bottom = `${this.#dinoPosition}px`;
                     }
                 }, 25 + 9.8)
             } else{
-                dinoPosition += 20;
+                this.#dinoPosition += 20;
 
-                dinoHTML.style.bottom = `${dinoPosition}px`;
+                dinoHTML.style.bottom = `${this.#dinoPosition}px`;
             }
         }, 25 + 9.8);
 
@@ -122,7 +121,7 @@ class Obstacle {
             if(obstaclePosition < -60) {
                 clearInterval(intervalLeftObstacle);
                 background.removeChild(obstacle);
-            } /* else if (obstaclePosition > 0 && obstaclePosition < 120 && objDino.getDinoPosition() < 60) {
+            } else if (obstaclePosition > 0 && obstaclePosition < 120 && objDino.getDinoPosition() < 60) {
                 // Game over
                 objScore.setHighScore();
     
@@ -130,7 +129,7 @@ class Obstacle {
                 clearInterval(intervalScore);
     
                 document.body.innerHTML = '<h1 class="game-over">Fim de jogo<br><a href="index.html" style="text-decoration:none;" class="game-over">Tente novamente!<br><img src="assets/reload.png"></a><h1>';
-            } */else {
+            } else {
                 obstaclePosition -= 10;
                 obstacle.style.left = `${obstaclePosition}px`;
             }
