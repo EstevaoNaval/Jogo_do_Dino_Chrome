@@ -1,6 +1,6 @@
-const background = document.querySelector(".background")
-const score = document.querySelector(".score");
-const highScore = document.querySelector(".highScore");
+const BACKGROUND = document.querySelector(".background")
+const DIVSCORE = document.querySelector(".score");
+const DIVHIGHSCORE = document.querySelector(".highScore");
 
 class Dino {
     #dinoHTML;
@@ -93,15 +93,18 @@ class Score {
 class Obstacle {
     #obstacle = document.createElement("div");
     #nameClassObstacle;
-    #obstaclePosition = 1000;
+    #obstaclePositionX = 800;
+    #obstacleSpeed;
     #randomTime = Math.random() * 6000;
+    #randomTypeObstacle = getRandomIntInclusive(0,1);
 
-    constructor(nameObstacle, objScore, objDino, intervalScore) {
-        this.#nameClassObstacle = nameObstacle;
+    constructor(objScore, objDino, intervalScore, speed = 23.5) {
+        this.#nameClassObstacle = (this.#randomTypeObstacle === 0) ? "cactus" : "bird";
+        this.#obstacleSpeed = speed - 0.15;
         this.addClassObstacle();
         this.animateObstacle(objScore, objDino, intervalScore);
 
-        setTimeout(() => {let objObstacle = new Obstacle(nameObstacle, objScore, objDino, intervalScore)}, this.#randomTime)
+        setTimeout(() => {let objObstacle = new Obstacle(objScore, objDino, intervalScore, this.#obstacleSpeed)}, this.#randomTime)
     }
 
     addClassObstacle() {
@@ -109,19 +112,28 @@ class Obstacle {
         let obstacle = this.#obstacle;
 
         obstacle.classList.add(nameClassObstacle);
-        background.appendChild(obstacle);
-        obstacle.style.left = `1000px`;
+        BACKGROUND.appendChild(obstacle);
+        obstacle.style.left = `800px`;
     }
 
     animateObstacle(objScore, objDino, intervalScore) {
-        let obstaclePosition = this.#obstaclePosition;
+        let obstaclePositionX = this.#obstaclePositionX;
         let obstacle = this.#obstacle;
+        let nameObstacle = this.#nameClassObstacle;
 
         let intervalLeftObstacle = setInterval(() => {
-            if(obstaclePosition < -60) {
+            if(obstaclePositionX < -60) {
                 clearInterval(intervalLeftObstacle);
-                background.removeChild(obstacle);
-            } else if (obstaclePosition > 0 && obstaclePosition < 120 && objDino.getDinoPosition() < 60) {
+                BACKGROUND.removeChild(obstacle);
+            } else if (obstaclePositionX > 0 && obstaclePositionX < 120 && objDino.getDinoPosition() < 60 && nameObstacle === "cactus") {
+                // Game over
+                objScore.setHighScore();
+    
+                clearInterval(intervalLeftObstacle);
+                clearInterval(intervalScore);
+    
+                document.body.innerHTML = '<h1 class="game-over">Fim de jogo<br><a href="index.html" style="text-decoration:none;" class="game-over">Tente novamente!<br><img src="assets/reload.png"></a><h1>';
+            } else if (obstaclePositionX > 0 && obstaclePositionX < 120 && objDino.getDinoPosition() <= 30 && nameObstacle === "bird") {
                 // Game over
                 objScore.setHighScore();
     
@@ -130,13 +142,20 @@ class Obstacle {
     
                 document.body.innerHTML = '<h1 class="game-over">Fim de jogo<br><a href="index.html" style="text-decoration:none;" class="game-over">Tente novamente!<br><img src="assets/reload.png"></a><h1>';
             } else {
-                obstaclePosition -= 10;
-                obstacle.style.left = `${obstaclePosition}px`;
+                obstaclePositionX -= 10;
+                obstacle.style.left = `${obstaclePositionX}px`;
             }
 
-        }, 20)
+        }, this.#obstacleSpeed)
     }
 }
+
+let getRandomIntInclusive = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 
 let handleKeyDown = (e) => {
 
@@ -147,25 +166,29 @@ let handleKeyDown = (e) => {
             objDino.jump();
         }
     }    
-}
+};
 
 let handleKeyUp = (e) => {
     if (e.keyCode === 40) {
         objDino.upDino();
     }
-}
+};
 
-objDino = new Dino(document.querySelector(".dino"));
-objScore = new Score();
+let init = () => {
+    objDino = new Dino(document.querySelector(".dino"));
+    objScore = new Score();
 
-highScore.innerHTML = `Maior pontuação: ${objScore.getHighScore()}`;
+    DIVHIGHSCORE.innerHTML = `Maior pontuação: ${objScore.getHighScore()}`;
 
-let scoreInterval = setInterval(() => {
-    objScore.setScore();
-    score.innerHTML = `Pontuação: ${objScore.getScore()}`;
-}, 34.8)
+    let scoreInterval = setInterval(() => {
+        objScore.setScore();
+        DIVSCORE.innerHTML = `Pontuação: ${objScore.getScore()}`;
+    }, 34.8)
 
-objCactus = new Obstacle("cactus", objScore, objDino, scoreInterval);
+    objCactus = new Obstacle(objScore, objDino, scoreInterval);
 
-document.addEventListener('keydown', handleKeyDown);
-document.addEventListener('keyup', handleKeyUp);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+};
+
+init();

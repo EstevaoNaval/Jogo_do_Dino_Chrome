@@ -13,7 +13,6 @@ body {
     position: absolute;
     bottom: 0;
     margin-left: 60px;
-    background-image: url("assets/dino/dino1.png");
     animation: feetDino 0.25s infinite cubic-bezier(1, 0, 0, 1);
 }
 
@@ -36,20 +35,24 @@ body {
     background-repeat: no-repeat;
 }
 
-/* .bird {
+.bird {
     position: absolute;
     width: 60px;
     height: 60px;
-    background-image: url("assets/bird/bird1.png");
+    bottom: 30px;
     animation: flappingWingsBird 0.25s infinite cubic-bezier(1, 0, 0, 1);
     background-repeat: no-repeat;
-} */
+}
 
 .game-over {
     text-align: center;
     color: #666666;
     margin-top: 50px;
     font-family: joystick;
+}
+
+.scoreBoard {
+    text-align: center;
 }
 
 @keyframes slideRight {
@@ -79,6 +82,7 @@ body {
     }
 }
 
+/* Animação do bater das asas do pterodáctilo */
 @keyframes flappingWingsBird {
     from {
         background-image: url("assets/bird/bird1.png");
@@ -89,12 +93,12 @@ body {
 
 .background {
     position: absolute;
-    text-align: start;
-    bottom: 0;
+    align-items: center;
+    margin-top: 150px;
     background-image: url("assets/background.png");
     background-repeat: repeat-x;
-    animation: slideRight 600s infinite linear;
-    width: 100%;
+    animation: slideRight 200s infinite linear;
+    width: 800px;
     height: 200px;
     font-family: joystick;
     color: #666666;
